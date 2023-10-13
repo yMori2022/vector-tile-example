@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
+</head>
+<body>
+<div id="map" style="width: 500px; height: 500px"></div>
+<script>
+var map = new maplibregl.Map({
+  container: 'map',
+  style: {
+    version: 8,
+    sources: {
+        bg: {
+            type: 'raster',
+            tiles: ['https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'],
+            tileSize: 256,
+            attribution:
+                '<a href="http://www.gsi.go.jp/kikakuchousei/kikakuchousei40182.html" target="_blank">地理院タイル</a>',
+        },
+        csharp: {
+            type: 'vector',
+            tiles: ['http://localhost:5269/tile/test1/{z}/{x}/{y}']
+        },
+        postgis: {
+            type: 'vector',
+            tiles: ['http://localhost:5269/tile/test2/{z}/{x}/{y}']
+        }
+    },
+    layers: [
+        {
+            id: 'bg',
+            type: 'raster',
+            source: 'bg',
+            minzoom: 0,
+            maxzoom: 18,
+        },
+        // C#版
+        {
+            id: 'csharp',
+            type: 'circle',
+            source: 'csharp',
+            'source-layer': 'points',
+            minzoom: 0,
+            maxzoom: 18,
+            paint:{
+                'circle-color': '#BB0000',
+                'circle-radius': 10
+            }
+        },
+        // PostGIS版
+        /*{
+            id: 'postgis',
+            type: 'circle',
+            source: 'postgis',
+            'source-layer': 'points',
+            minzoom: 0,
+            maxzoom: 18,
+            paint:{
+                'circle-color': '#BB0000',
+                'circle-radius': 10
+            }
+        },*/
+    ],
+  },
+  center: [139.76769903733918, 35.68139335470638], // starting position [lng, lat]
+  zoom: 9 // starting zoom
+});
+</script>
+</body>
+</html>

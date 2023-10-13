@@ -1,0 +1,9 @@
+services:
+  postgis:
+    image: postgis/postgis
+    environment:
+      POSTGRES_DB: vector_tile_example
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
